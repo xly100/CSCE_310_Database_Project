@@ -1,0 +1,39 @@
+table{
+	width: 100%;
+	font-size: 50%
+}
+
+td, th {
+  border: 1px solid black;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(odd) {
+  background-color: #ae81a8;
+  color: white;
+}
+
+a:link {
+  color: #3d305d;
+  background-color: transparent;
+  text-decoration: none;
+}
+
+a:visited {
+  color: #3d305d;
+  background-color: transparent;
+  text-decoration: none;
+}
+
+a:hover {
+  color: red;
+  background-color: transparent;
+  text-decoration: underline;
+}
+
+a:active {
+  color: yellow;
+  background-color: transparent;
+  text-decoration: underline;
+}
