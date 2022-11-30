@@ -1,6 +1,5 @@
 table{
 	width: 100%;
-	font-size: 50%
 }
 
 td, th {
@@ -10,8 +9,8 @@ td, th {
 }
 
 tr:nth-child(odd) {
-  background-color: #ae81a8;
-  color: white;
+  background-color: white;
+  color: black;
 }
 
 a:link {
