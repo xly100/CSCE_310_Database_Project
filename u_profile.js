@@ -4,7 +4,7 @@ window.onload = function loadStuff(){
 }
 
 function getUserInfo(){ //Needs to obtain data from user table to display on u_profile and u_profile_edit
-	let UID = "5";
+	let UID = "5"; //Change lines like this to obtain Database values
 	document.getElementById("UID").innerHTML = UID;
 	
 	let FName = "Bruce";
