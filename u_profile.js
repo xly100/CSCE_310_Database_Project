@@ -10,7 +10,7 @@ function getUserType(){ //Obtains usertype of whoever is logged in
 	
 }
 
-function displayExtras(){ //Displays extra info depending on usertype
+window.onload = function displayExtras(){ //Displays extra info depending on usertype
 	//Obtain usertype value here, set to var usertype
 	var usertype = "p";
 	
@@ -23,6 +23,6 @@ function displayExtras(){ //Displays extra info depending on usertype
 		document.getElementById("tableD").style.display = "block";
 	}
 }
-window.addEventListener('DOMContentLoaded', (event) => {
+/*window.addEventListener('DOMContentLoaded', (event) => {
     displayExtras();
-});
+});*/
