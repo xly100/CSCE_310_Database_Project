@@ -137,15 +137,14 @@ for (i = 17; i >= 8; i--) {
 /* click listeners for each cell */
 document.querySelectorAll('#cal_table td')
 .forEach(e => e.addEventListener("click", function() {
-
-	// TODO: hide or unhide fields for appt creation/viewing
-
-	//  desc = prompt("Enter Description of Need", "");
-	// if (desc != null) {
-	// // addEvent(getDateFromId(this.id), this.id.substr(0,1),desc,getTimeFromId(this.id));
-	// addEvent(desc,"2022-12-02 05:00:00");
-	
-	// }
+	if (e.style.backgroundColor == "gray"){ // unavailable
+		alert("Sorry. This spot is already reserved.")
+	} else if (e.style.backgroundColor == "white"){ // available
+		// TODO: show appointment entry form
+		// addEvent(getDateFromId(this.id), this.id.substr(0,1),desc,getTimeFromId(this.id));
+	} else if (e.style.backgroundColor == "orange"){ // your appointment
+		// TODO: open appointment info
+	}
 }));
 
 
