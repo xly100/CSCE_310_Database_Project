@@ -74,7 +74,7 @@ function goForwardOneWeek(){
 }
 
 
-/* Retireves single dated events from database */
+/* Retireve all appointments from database */
 function retrieveAppointments(date, dayOfWeek){
 	var req = new XMLHttpRequest();
     req.onreadystatechange = function() {
@@ -106,10 +106,29 @@ function retrieveAppointments(date, dayOfWeek){
 	  }
       }
     };
-    req.open("GET", "https://csce310database.000webhostapp.com/calendar.php?username=" + USER + "&usertype=" + USERTYPE + "&date="+date, true);
+    req.open("GET", "https://csce310database.000webhostapp.com/calendar.php?username=" + USER + "&usertype=" + USERTYPE + "&date="+date + "&command=0", true);
     req.send();
 }
 
+
+/* Retireve all doctors */
+function retrieveDoctors(){
+	var req = new XMLHttpRequest();
+    req.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+	  jsonArr = JSON.parse(this.responseText);
+	  
+	  for(i = 0; i < jsonArr.length; i++){
+
+	  	e = jsonArr[i];
+		specialty = e[1];
+		alert(sepcialty);
+	  }
+      }
+    };
+    req.open("GET", "https://csce310database.000webhostapp.com/calendar.php?username=" + USER + "&usertype=" + USERTYPE + "&date="+"null" + "&command=1", true);
+    req.send();
+}
 
 
 

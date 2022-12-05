@@ -23,7 +23,7 @@ Class SQLManager{
 	// get all appointments for given day for given doctor
 	static function getDoctors(){
 		
-		$command = "SELECT (`userid`,`specialty`) FROM `doctor`";
+		$command = "SELECT `userid`,`specialty` FROM `doctor`";
 		$con = new PDO("mysql:host=localhost;dbname=" . SQLManager::$db_name , SQLManager::$user, SQLManager::$pass, array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC));
 		$v = $con->query($command);
 
