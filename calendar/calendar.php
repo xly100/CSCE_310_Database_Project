@@ -19,10 +19,21 @@ Class SQLManager{
 		return $rows;
 		
 	}
+
+	// get all appointments for given day for given doctor
+	static function getDoctors(){
+		
+		$command = "SELECT (`userid`,`specialty`) FROM `doctor`";
+		$con = new PDO("mysql:host=localhost;dbname=" . SQLManager::$db_name , SQLManager::$user, SQLManager::$pass, array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC));
+		$v = $con->query($command);
+
+		$rows = $v->fetchAll(PDO::FETCH_NUM);
+
+		return $rows;
+		
+	}
 	
 }
-
-// alert('nope')
 
 /** GET/POST REQUEST HANDLING **/
 
@@ -30,8 +41,13 @@ Class SQLManager{
         $username = $_REQUEST["username"];
 		$usertype = $_REQUEST["usertype"];
 		$date = $_REQUEST["date"];
+		$command = $_REQUEST["command"];
 		
-		echo json_encode(SQLManager::getAppointments($date));
+		if ($command == "0"){
+			echo json_encode(SQLManager::getAppointments($date));
+		} else if ($command == "1"){
+			echo json_encode(SQLManager::getDoctors()));
+		}
 			
 		}
 		
