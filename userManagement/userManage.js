@@ -1,76 +1,40 @@
-$(document).ready(function(){
+window.addEventListener('DOMContentLoaded', (event) => {
     populateUsers();
-}
-)
+});
 
 function populateUsers(){
 
-    //id
-    const id = document.createElement('td');
-    id.textContent = '3';
-
-    const name = document.createElement('td');
-    name.textContent = 'Jorge Bosh';
-
-    const phone = document.createElement('td');
-    phone.textContent = '1236549870';
-
-    const role = document.createElement('td');
-    role.textContent = 'Doctor';
-
-    const editIcon = document.createElement('i');
-    editIcon.setAttribute("class", "material-icons");
-    editIcon.innerHTML  = '&#xE8B8;';
-
-    const edit = document.createElement('a');
-    edit.setAttribute("href", "#");
-    edit.setAttribute("class", "settings");
-    edit.setAttribute("title", "Settings");
-    edit.setAttribute("data-toggle", "tooltip");
-    edit.setAttribute("data-original-title", "Settings")
-    edit.appendChild(editIcon);
-
-    const deleteIcon = document.createElement('i');
-    deleteIcon.setAttribute("class", "material-icons");
-    deleteIcon.innerHTML  = '&#xE5C9;';
-
-    const remove = document.createElement('a');
-    remove.setAttribute("href", "#");
-    remove.setAttribute("class", "delete");
-    remove.setAttribute("title", "Delete");
-    remove.setAttribute("data-toggle", "tooltip");
-    remove.setAttribute("data-original-title", "Delete")
-    remove.appendChild(deleteIcon);
-
-    const action = document.createElement('td');
-    action.appendChild(edit);
-    action.appendChild(remove);
-
-    const tr = document.createElement('tr');
-    tr.appendChild(id);
-    tr.appendChild(name);
-    tr.appendChild(phone);
-    tr.appendChild(role);
-    tr.appendChild(action);
-
-
+    //todo: add php logic to database
+    var id = '3';
+    var name = 'Jorge Bosh';
+    var phone = '1236549870';
+    var role = 'Doctor';
     
+    var row = document.createElement('tr');
+    row.setAttribute("id", id)
+
+    row.innerHTML = "<td>" + id + "<\/td><td>" + name + "<\/td><td>" + phone + "<\/td><td>" + role + "<\/td><td>" 
+    + "<a href='#' class='settings' title='Settings' data-toggle='tooltip' onclick='editUserProfile(this)'><i class='material-icons'>&#xE8B8;<\/i><\/a><a href='#' class='delete' title='Delete' data-toggle='tooltip' onclick='deleteUsers(this)'><i class='material-icons'>&#xE5C9;<\/i><\/a><\/td>";
+
     const table = document.getElementById('userTable');
-    table.appendChild(tr);
-
-
+    table.appendChild(row);
     
-    //id.textContent = 'Jorge Bosh';
-    
-
 
 }
 
-function deleteUsers(){
+function deleteUsers(btn){
+    var row = btn.parentNode.parentNode;
+    removedId = row.id; // this is the id for the removed user
+    console.log(removedId);
+    row.parentNode.removeChild(row)
+    //todo: add php logic to database
 
 }
 
-function editUserProfile(){
-
+function editUserProfile(btn){
+    var row = btn.parentNode.parentNode;
+    editId = row.id; // this is the id to edit
+    console.log(editId);
+    //go to page for editing user profile
     
 }
