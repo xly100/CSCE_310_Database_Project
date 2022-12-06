@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>User Management</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+    <link rel="stylesheet" href="usermanage.css">
+    <script>
+    $(document).ready(function(){
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+    </script>
+	<style>
+      body {
+        margin-left: 5%;
+        margin-right: 5%;
+      }
+    </style>
+    <script src="usermanage.js"></script>   
+	<script src="common.js"></script> 
+</head>
+<body>
+
+
+<nav class="navbar navbar-expand-sm fixed-top" style="background-color: #007bff;">
+	 <div class="container">
+      <ul class="nav navbar-nav">
+        <li class="nav-item active">
+          <a class="navbar-brand" href="#" style="font-size: 1.5em; font-family: Gabriola; color: #fff;">Patient Connect ®</a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="PORTAL_PAGE" style="color: #fff;">Portal</a>
+        </li>
+        <li class="nav-item active" >
+          <a class="nav-link" href="PROFILE_PAGE" style="color: #fff;">My profile</a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="#" style="text-decoration-line: underline; color: #fff;">Admin</a>
+        </li>
+		</ul>
+		  <ul class="nav navbar-nav navbar-right">
+		<li class="nav-item active">
+          <a class="nav-link" id="signed-in-as" style="color: #fff;"> Signed in as John Smith</a>
+        </li>
+		<li class="nav-item active">
+          <a class="nav-link" onclick="signOut();" href="LOGIN_PAGE" style="color: #fff;"> Sign out</a>
+        </li>
+		</ul>
+</div>
+    </nav>
+
+<div class="container" stlye=" color: #566787;">
+    <div class="table-responsive">
+        <div class="table-wrapper">
+            <div class="table-title">
+                <div class="row">
+                    <div class="col-xs-5">
+                        <h2><b>User Management</b></h2>
+                    </div>
+                    <div class="col-xs-7">
+                        <a href="USER_ADD" class="btn btn-primary"><i class="material-icons">&#xE147;</i> <span>Add New User</span></a>					
+                    </div>
+                </div>
+            </div>
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>User Name</th>						
+                        <th>Phone</th>
+                        <th>Role</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="userTable">
+                    <tr id="1">
+                        <td>1</td>
+                        <td><a href="#">Michael Holz</a></td>
+                        <td>mike1</td>
+                        <td>1234567890</td>                        
+                        <td>Admin</td>
+                        <td>
+                            <a href="#" class="settings" title="Settings" data-toggle="tooltip" onclick="editUserProfile(this)"><i class="material-icons">&#xE8B8;</i></a>
+                            <a href="#" class="delete" title="Delete" data-toggle="tooltip" onclick="deleteUsers(this)"><i class="material-icons">&#xE5C9;</i></a>
+                        </td>
+                    </tr>
+                    <tr id="2">
+                        <td>2</td>
+                        <td><a href="#">Paula Wilson</a></td>
+                        <td>paula2</td>
+                        <td>1236549870</td>                       
+                        <td>Patient</td>
+                        <td>
+                            <a href="#" class="settings" title="Settings" data-toggle="tooltip" onclick="editUserProfile(this)"><i class="material-icons">&#xE8B8;</i></a>
+                            <a href="#" class="delete" title="Delete" data-toggle="tooltip" onclick="deleteUsers(this)"><i class="material-icons">&#xE5C9;</i></a>
+                        </td>
+                    </tr>
+                    
+                </tbody>
+            </table>
+        </div>
+    </div>     
+</div>  
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</body>
+</html>

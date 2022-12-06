@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title> Profile Page </title>
+		
+		<link rel="stylesheet" href="userprofile.css">
+		 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+		<script src="common.js"></script> 
+		<script src="userprofile.js"></script> 
+		 <style>
+      body {
+        padding-top: 80px;
+        margin-left: 5%;
+        margin-right: 5%;
+      }
+    </style>
+	</head>
+	
+	<body>
+
+	<nav class="navbar navbar-expand-sm bg-primary navbar-dark fixed-top">
+	 <div class="container">
+      <ul class="nav navbar-nav">
+        <li class="nav-item active">
+          <a class="navbar-brand" href="#" style="font-size: 1.5em; font-family: Gabriola; color: black;">Patient Connect ®</a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="PORTAL_PAGE">Portal</a>
+        </li>
+        <li class="nav-item active" >
+          <a class="nav-link" href="#" style="text-decoration-line: underline;">My profile</a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="#" onclick="checkAndRedirectAdmin();"  >Admin</a>
+        </li>
+		</ul>
+		  <ul class="nav navbar-nav navbar-right">
+		<li class="nav-item active">
+          <a class="nav-link" id="signed-in-as"> Signed in as John Smith</a>
+        </li>
+		<li class="nav-item active">
+          <a class="nav-link" onclick="signOut();" href="LOGIN_PAGE"> Sign out</a>
+        </li>
+		</ul>
+</div>
+    </nav>
+
+<h1 style="text-align:center"> User Profile </h1>
+		
+		<div style="background-color:#d3d3d3;">
+			<table style="color:black;">
+				<tr>
+					<td> User ID </td>
+					<td id="UID"> </td> <!--Display data from user table in the second <td>s-->
+				</tr>
+				
+				<tr>
+					<td> First Name </td>
+					<td id="FName"> </td>
+				</tr>
+				
+				<tr>
+					<td> Last Name </td>
+					<td id="LName"> </td>
+				</tr>
+				
+				<tr>
+					<td> Phone Number </td>
+					<td id="PhoneNum"> </td>
+				</tr>
+				
+				<tr>
+					<td> Username </td>
+					<td id="Username"> </td>
+				</tr>
+				
+				<tr>
+					<td> Password </td>
+					<td id="Pwd"> </td>
+				</tr>
+				
+				<tr>
+					<td> User Type </td>
+					<td id="Usertype"> </td>
+				</tr>
+			</table>
+		<div>
+		
+		<div style="background-color:#d3d3d3;">
+			<table id="tableP" style="color:black;">
+				<tr>
+					<td> Street </td>
+					<td id="Street"> </td> <!--Display data from user table in the second <td>s-->
+				</tr>
+				<tr>
+					<td> City </td>
+					<td id="City"> </td> <!--Display data from user table in the second <td>s-->
+				</tr>
+				<tr>
+					<td> State </td>
+					<td id="State"> </td> <!--Display data from user table in the second <td>s-->
+				</tr>
+				<tr>
+					<td> Age </td>
+					<td id="Age"> </td> <!--Display data from user table in the second <td>s-->
+				</tr>
+				<tr>
+					<td> Sex </td>
+					<td id="Sex"> </td> <!--Display data from user table in the second <td>s-->
+				</tr>
+			</table>
+			
+			<table id="tableD" style="color:black;">
+				<tr>
+					<td> Specialty </td>
+					<td id="Specialty"> </td> <!--Display data from user table in the second <td>s-->
+				</tr>
+				<tr>
+					<td> Room Number </td>
+					<td id="RoomNum"> </td> <!--Display data from user table in the second <td>s-->
+				</tr>
+			</table>
+		<div>
+		
+		<a href = "PROFILE_EDIT">
+			<button type="button" style="text-align:center"> Edit </button>
+		</a>
+		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+	</body>
+</html>
