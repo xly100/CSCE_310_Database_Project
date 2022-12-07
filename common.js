@@ -4,10 +4,20 @@ PORTAL_PAGE = "portal.html";
 PROFILE_PAGE = "userprofile.html";
 ADMIN_PAGE = "usermanage.html";
 USER_ADD = "adduser.html";
-PROFILE_EDIT = "userprofileedit.html";
+PROFILE_EDIT = "userprofile.html";
 PAGE_VAR_NAMES = {"LOGIN_PAGE" : LOGIN_PAGE, "PORTAL_PAGE" : PORTAL_PAGE, "PROFILE_PAGE" : PROFILE_PAGE, "ADMIN_PAGE" : ADMIN_PAGE, "USER_ADD" : USER_ADD, "PROFILE_EDIT" : PROFILE_EDIT}
 
 // PHP SCRIPT REFERENCES
+BASE_URL = "https://csce310database.000webhostapp.com/";
+
+function retrieveUserInfo() {
+	//returns null if no local storage object is found
+	//otherwise returns JSON dictionary of user's information
+  if(!localStorage.csce310userinfo){
+	  return null;
+  }
+  return JSON.parse(localStorage.getItem("csce310userinfo"));
+}
 
 function signOut(){
 	//delete login cookie
@@ -30,6 +40,7 @@ for(let i = 0; i < as.length; i++){
     
 }
 	
+	
 if(validateLogin()){
 	//set up navbar "signed in as" feature
 	if (document.getElementById("register-form") == null){ //only login page has register-form so this is not login page
@@ -49,34 +60,6 @@ if(validateLogin()){
 
 
 });
-
-function checkAndRedirectAdmin(){
-	//check if user has admin privileges, then redirect to admin page if so
-	if(getUserType() !== "a"){
-		alert("Error: You are not an admin!");
-		return;
-	} else{
-		window.location.href = ADMIN_PAGE;
-	}
-	
-}
-
-//Functions below are retrieving information from tables
-
-function retrieveUserInfo() {
-	//returns null if no local storage object is found
-	//otherwise returns JSON dictionary of user's information
-  if(!localStorage.csce310userinfo){
-	  return null;
-  }
-  return JSON.parse(localStorage.getItem("csce310userinfo"));
-}
-
-function retrievePatientInfo() {
-	//returns null if no local storage object is found
-	//otherwise returns JSON dictionary of patient's information
-}
-
 
 function getUserType(){
 	//returns "a", "d", or "p"
@@ -108,28 +91,64 @@ function getUsername(){
 	return retrieveUserInfo()["username"];
 }
 
-function getPassword(){
-	//returns user's password as a string, i.e. "donk"
-	return retrieveUserInfo()["passphrase"];
+function checkAndRedirectAdmin(){
+	//check if user has admin privileges, then redirect to admin page if so
+	if(getUserType() !== "a"){
+		alert("Error: You are not an admin!");
+		return;
+	} else{
+		window.location.href = ADMIN_PAGE;
+	}
+	
 }
 
-function getStreet(){
-	//returns user's street as a string, i.e. "Material St."
-}
 
-function getCity(){
-	//returns user's city as a string, i.e. "Houston"
-}
 
-function getState(){
-	//returns user's state as a string, i.e. "Texas"
-}
+/*
 
-function getAge(){
-	//returns user's age
-}
+Invokes a specific PHP file on the server tied to a SQL query
 
-function getSex(){
-	//returns user's sex as a string, i.e. "M"
-}
+Description of parameters:
 
+scriptname - a string containing the name of the PHP script to be invoked; for example, "login.php". Be sure to include the ".php" extension at the end
+
+args_dict - a dictionary that maps argument names to their values. Keys are argument names and values are corresponding values. For example, {"username" : "Bob", "password" : "bob123"}
+
+callback_success - the name of a function (in a separate JS file) that is to be called if the query ran successfully. This function should take in 1 parameter, the response text returned by the PHP script.
+Remember to pass in only the NAME of the function, NOT a call to it. For example, if you have a function onSuccess(text) {console.log(text);}, you would pass in onSuccess to this parameter.
+Note that the name of the function passed into this parameter is not a string, but the raw name, as if it were a variable.
+
+callback_error - the name of a function (in a separate JS file) that is to be called if the query encountered an error while running. This function should take in 1 parameter, the error message.
+Remember to pass in only the NAME of the function, NOT a call to it. For example, if you have a function onFail(text) {console.log(text);}, you would pass in onFail to this parameter. 
+Note that the name of the function passed into this parameter is not a string, but the raw name, as if it were a variable.
+
+*/
+function runPHP(scriptname, args_dict, callback_success, callback_error){ 
+
+fullURL = BASE_URL + scriptname;
+
+if (Object.keys(args_dict).length > 0){
+    fullURL += "?"
+    for(let i = 0; i < Object.keys(args_dict).length; i++){
+        fullURL += Object.keys(args_dict)[i] + "=";
+        fullURL += args_dict[Object.keys(args_dict)[i]];
+        if(i < Object.keys(args_dict).length - 1){
+            fullURL += "&";
+        }
+    }
+}
+	 var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        result = this.responseText;
+		if (result.includes("__PHP_ERROR__")) { //error function
+			callback_error(result);
+		} else { //success function
+			callback_success(result);
+		}
+      }
+    };
+    xmlhttp.open("GET", fullURL, true);
+    xmlhttp.send();
+	
+}
