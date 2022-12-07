@@ -4,7 +4,7 @@ PORTAL_PAGE = "portal.html";
 PROFILE_PAGE = "userprofile.html";
 ADMIN_PAGE = "usermanage.html";
 USER_ADD = "adduser.html";
-PROFILE_EDIT = "userprofile.html";
+PROFILE_EDIT = "userprofileedit.html";
 PAGE_VAR_NAMES = {"LOGIN_PAGE" : LOGIN_PAGE, "PORTAL_PAGE" : PORTAL_PAGE, "PROFILE_PAGE" : PROFILE_PAGE, "ADMIN_PAGE" : ADMIN_PAGE, "USER_ADD" : USER_ADD, "PROFILE_EDIT" : PROFILE_EDIT}
 
 // PHP SCRIPT REFERENCES
