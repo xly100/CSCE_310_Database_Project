@@ -6,10 +6,11 @@ window.onload = function loadStuff(){
 	displayExtras();
 }
 
-//Functions used in both pages
+//Functions involved with both pages
 
 function displayUserInfo(){ //Needs to obtain data from user table to display on u_profile and u_profile_edit
-	let UID = getUserId(); //Change lines like this to obtain Database values
+	//All of these statements call a function from common.js to obtain the current user table values and set them to variables that can be used by the html pages
+	let UID = getUserId();
 	document.getElementById("UID").innerHTML = UID;
 	
 	let FName = getUserFName();
@@ -30,6 +31,7 @@ function displayUserInfo(){ //Needs to obtain data from user table to display on
 	let Usertype = getUserType();
 	document.getElementById("Usertype").innerHTML = Usertype;
 
+	//Sets the default text box values for userprofileedit based on the current values
 	document.getElementById("UID Box").innerhtml = UID;
 	document.getElementById("FName Box").value = FName;
 	document.getElementById("LName Box").value = LName;
@@ -38,6 +40,7 @@ function displayUserInfo(){ //Needs to obtain data from user table to display on
 	document.getElementById("Pwd Box").value = Pwd;
 	document.getElementById("Usertype Box").value = Usertype;
 	
+	//If the user is a patient, call functions to obtain the current values from the patient table
 	if(Usertype = "p"){
 		let Street = "Gotham Dr.";
 		document.getElementById("Street").innerHTML = Street;
@@ -54,25 +57,31 @@ function displayUserInfo(){ //Needs to obtain data from user table to display on
 		let Sex = "M";
 		document.getElementById("Sex").innerHTML = Sex;
 
+		//Sets the default text box values for userprofileedit based on the current values
 		document.getElementById("Street Box").value = Street;
 		document.getElementById("City Box").value = City;
 		document.getElementById("State Box").value = State;
 		document.getElementById("Age Box").value = Age;
 		document.getElementById("Sex Box").value = Sex;
 	}
-	
+
+	//If the user is a doctor, call functions to obtain the current values from the doctor table
 	if(Usertype = "d"){
 		let Specialty = "Donk";
 		document.getElementById("Specialty").innerHTML = Specialty;
 		
 		let RoomNum = "Bonk";
 		document.getElementById("RoomNum").innerHTML = RoomNum;
+
+		//Doctors do not have an extra table with information they can edit
 	}
+
+	
 }
 
-//Functions used only in userprofileedit.html
+//Functions involved only in userprofileedit.html
 
-function saveProfileDetails(){ //Sends new profile details to database, then goes from userprofileedit to userprofile. Called by "save button"
+function saveProfileDetails(){ //Called by "save button", stores text field values as variables and then sends to database
 	let FName = document.getElementById("FName Box").value;
 	let LName = document.getElementById("LName Box").value;
 	let PhoneNum = document.getElementById("PhoneNum Box").value;
@@ -92,11 +101,11 @@ function saveProfileDetails(){ //Sends new profile details to database, then goe
 	window.location.replace("userprofile.html"); //Redirect to user profile page
 }
 
-//Functions only used in userprofile.html
+//Functions involved only in userprofile.html
 
 function displayExtras(){ //Displays extra info depending on usertype
-	//Obtain usertype value here, set to var usertype
-	let Usertype = getUserType();
+	
+	let Usertype = getUserType(); //Obtain usertype value here
 	
 	document.getElementById("tableP").style.display = "none";
 	document.getElementById("tableD").style.display = "none";

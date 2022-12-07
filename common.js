@@ -30,7 +30,6 @@ for(let i = 0; i < as.length; i++){
     
 }
 	
-	
 if(validateLogin()){
 	//set up navbar "signed in as" feature
 	if (document.getElementById("register-form") == null){ //only login page has register-form so this is not login page
@@ -72,6 +71,12 @@ function retrieveUserInfo() {
   }
   return JSON.parse(localStorage.getItem("csce310userinfo"));
 }
+
+function retrievePatientInfo() {
+	//returns null if no local storage object is found
+	//otherwise returns JSON dictionary of patient's information
+}
+
 
 function getUserType(){
 	//returns "a", "d", or "p"
