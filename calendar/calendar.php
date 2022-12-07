@@ -7,10 +7,8 @@ Class SQLManager{
 	public static $pass = "310databaseDXSM$"; //password corresponding to above username
 	
 	// get all appointments for given day for given doctor
-	// apppointment slot on calendar can either be available, your appointment, or unavailable
-	static function getAppointments($date){
-		
-		$command = "SELECT * FROM `appointment` WHERE `timestamp` BETWEEN '{$date} 00:00:00' AND '{$date} 23:59:59' ";
+	static function getAppointments($date, $doctorid, $usertype){
+		$command = "SELECT * FROM `appointment` WHERE `doctorid` = '{$doctorid}' AND `timestamp` BETWEEN '{$date} 00:00:00' AND '{$date} 23:59:59'";
 		$con = new PDO("mysql:host=localhost;dbname=" . SQLManager::$db_name , SQLManager::$user, SQLManager::$pass, array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC));
 		$v = $con->query($command);
 
@@ -23,7 +21,7 @@ Class SQLManager{
 	// get all appointments for given day for given doctor
 	static function getDoctors(){
 		
-		$command = "SELECT `userid`,`specialty` FROM `doctor`";
+		$command = "SELECT `userid`,`firstname`,`lastname`,`specialty` FROM `doctor_view`"; // MATTHEW CHANG used view
 		$con = new PDO("mysql:host=localhost;dbname=" . SQLManager::$db_name , SQLManager::$user, SQLManager::$pass, array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC));
 		$v = $con->query($command);
 
@@ -38,32 +36,19 @@ Class SQLManager{
 /** GET/POST REQUEST HANDLING **/
 
 		if ( $_SERVER['REQUEST_METHOD'] == 'GET' ) {
-        $username = $_REQUEST["username"];
+        $userid = $_REQUEST["userid"];
 		$usertype = $_REQUEST["usertype"];
 		$date = $_REQUEST["date"];
 		$command = $_REQUEST["command"];
+		$doctorid = $_REQUEST["doctorid"];
 		
 		if ($command == "0"){
-			echo json_encode(SQLManager::getAppointments($date));
+			echo json_encode(SQLManager::getAppointments($date, $doctorid, $usertype));
 		} else if ($command == "1"){
-			echo json_encode(SQLManager::getDoctors()));
+			echo json_encode(SQLManager::getDoctors());
 		}
 			
 		}
-		
-		// post
-		
-		// if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
-			
-			
-		// $username = $_POST['username'];
-		// $desc = $_POST['desc'];
-		// $date = $_POST['date'];
-		// $day = $_POST['day'];
-		// $time = $_POST['time'];
-		// SQLManager::addDatedEvent($description);
-			
-		// }
 		
 ?>
 
