@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<title> Profile Page </title>
+		<title> Edit Profile </title>
 		
 		<link rel="stylesheet" href="userprofile.css">
 		 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -25,8 +25,7 @@
 					<td> User ID </td>
 					<td>
 						<div class="form-outline">
-							<input class="form-control" id="formControlReadonly" type="text" value="User ID" aria-label="readonly input example" readonly/>
-							<!--<label class="form-label" for="formControlReadonly">Readonly</label>-->
+							<input class="form-control" id="UID Box" type="text" readonly/>
 						</div>
 					</td>
 				</tr>
@@ -35,8 +34,7 @@
 					<td> First Name </td>
 					<td>
 						<div class="form-outline">
-							<input type="text" id="form12" class="form-control" value="FName"/>
-							<!--<label class="form-label" for="form12">Example label</label>-->
+							<input type="text" id="FName Box" class="form-control"/>
 						</div>
 					</td>
 				</tr>
@@ -45,8 +43,7 @@
 					<td> Last Name </td>
 					<td>
 						<div class="form-outline">
-							<input type="text" id="form12" class="form-control" value="LName"/>
-							<!--<label class="form-label" for="form12">Example label</label>-->
+							<input type="text" id="LName Box" class="form-control"/>
 						</div>
 					</td>
 				</tr>
@@ -55,8 +52,7 @@
 					<td> Phone Number </td>
 					<td>
 						<div class="form-outline">
-							<input type="tel" id="typePhone" class="form-control" value="Phone#"/>
-							<!--<label class="form-label" for="form12">Example label</label>-->
+							<input type="tel" id="PhoneNum Box" class="form-control"/>
 						</div>
 					</td>
 				</tr>
@@ -65,8 +61,7 @@
 					<td> Username </td>
 					<td>
 						<div class="form-outline">
-							<input type="text" id="form12" class="form-control" value="Username" />
-							<!--<label class="form-label" for="form12">Example label</label>-->
+							<input type="text" id="Username Box" class="form-control"/>
 						</div>
 					</td>
 				</tr>
@@ -75,8 +70,7 @@
 					<td> Password </td>
 					<td>
 						<div class="form-outline">
-							<input type="text" id="form12" class="form-control" value="Password" />
-							<!--<label class="form-label" for="form12">Example label</label>-->
+							<input type="text" id="Pwd Box" class="form-control"/>
 						</div>
 					</td>
 				</tr>
@@ -85,13 +79,57 @@
 					<td> User Type </td>
 					<td>
 						<div class="form-outline">
-							<input class="form-control" id="formControlReadonly" type="text" value="User Type" aria-label="readonly input example" readonly/>
-							<!--<label class="form-label" for="formControlReadonly">Readonly</label>-->
+							<input class="form-control" id="Usertype Box" type="text" readonly/>
 						</div>
 					</td>
 				</tr>
 			</table>
 		</div>
+
+		<div style="background-color:#d3d3d3;">
+			<table id="tableP Edit" style="color:black;">
+				<tr>
+					<td> Street </td>
+					<td>
+						<div class="form-outline">
+							<input type="text" id="Street Box" class="form-control"/>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td> City </td>
+					<td>
+						<div class="form-outline">
+							<input type="text" id="City Box" class="form-control"/>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td> State </td>
+					<td>
+						<div class="form-outline">
+							<input type="text" id="State Box" class="form-control"/>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td> Age </td>
+					<td>
+						<div class="form-outline">
+							<input type="text" id="Age Box" class="form-control" readonly/>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td> Sex </td>
+					<td>
+						<div class="form-outline">
+							<input type="text" id="Sex Box" class="form-control" readonly/>
+						</div>
+					</td>
+				</tr>
+			</table>
+		<div>
 		
 		<button type="button" style="text-align:center" onclick="saveProfileDetails();"> Save </button>
 		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

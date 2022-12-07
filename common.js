@@ -91,6 +91,31 @@ function getUsername(){
 	return retrieveUserInfo()["username"];
 }
 
+function getPassword(){
+	//returns user's password as a string, i.e. "donk"
+	return retrieveUserInfo()["passphrase"];
+}
+
+function getStreet(){
+	//returns user's street as a string, i.e. "Material St."
+}
+
+function getCity(){
+	//returns user's city as a string, i.e. "Houston"
+}
+
+function getState(){
+	//returns user's state as a string, i.e. "Texas"
+}
+
+function getAge(){
+	//returns user's age
+}
+
+function getSex(){
+	//returns user's sex as a string, i.e. "M"
+}
+
 function checkAndRedirectAdmin(){
 	//check if user has admin privileges, then redirect to admin page if so
 	if(getUserType() !== "a"){
