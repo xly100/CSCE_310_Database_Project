@@ -1,16 +1,12 @@
 window.addEventListener('DOMContentLoaded', (event) => {
     populateComments();
-	
-	if(getUserType() == 'a'){
-		document.getElementById('comment-admin').style.display = "block";
-	} else{
-		document.getElementById('comment-user').style.display = "block";
-	}
-	
 });
 
 function populateComments(){
-
+    if(getUserType()!=='a'){
+        document.getElementById("manage").style.display="none";
+    }
+    
     var id = '4';
     var time = '11/09/2022 9:23:12';
     var comment = 'No, U';
@@ -25,6 +21,18 @@ function populateComments(){
 
     const table = document.getElementById('commentTable');
     table.appendChild(row);
+
+
+}
+
+
+
+
+function addComment(){
+    var comment = document.getElementById("inputComment").value;
+    var appointmentid = document.getElementById("inputAppointmentID").value;
+    runPHP("addcomment.php", {"content":comment, "userid":getUserId(), "appointmentid": appointmentid}, console.log, alert);
+
 }
 
 function deleteComments(btn){

@@ -160,67 +160,9 @@
 	</div>
 	<br><br>
 	<!-- Endcreate appt -->
-
-<!-- Begin comment user -->
-	
-    <div id="comment-user" style="display: none;">
-		<h2>Comments</h2>
-	 <table class="table text-center" >
-        <thead>
-          <tr>
-            <th scope="col">Comment ID</th>
-            <th scope="col">Time</th>
-            <th scope="col">Comment</th>
-            <th scope="col">Name</th>
-            <th scope="col">User Type</th>
-            <th scope="col">Appointment ID</th>
-          </tr>
-        </thead>
-        <tbody id="commentTable">
-          <tr>
-            <th scope="row">1</th>
-            <td>11/30/2022 9:20:12</td>
-            <td>You have covid.</td>
-            <td>Jacob Thornton</td>
-            <td>Doctor</td>
-            <td>1</td>
-          </tr>
-          <tr>
-            <th scope="row">2</th>
-            <td>11/30/2022 9:20:12</td>
-            <td>I don't have covid.</td>
-            <td>John Doe</td>
-            <td>Patient</td>
-            <td>1</td>
-          </tr>
-          <tr>
-            <th scope="row">3</th>
-            <td>11/30/2022 9:20:12</td>
-            <td>You have covid.</td>
-            <td>Jacob Thornton</td>
-            <td>Doctor</td>
-            <td>1</td>
-          </tr>
-          
-        </tbody>
-    </table>
-    <form class="mx-5">
-        <div class="form-group">
-          <label for="inputComment">Please input your comment to the doctor here</label>
-          <input type="" class="form-control" id="inputComment" aria-describedby="commentHelp" placeholder="Enter Comment">
-          <small id="commentHelp" class="form-text text-muted">We'll never share your comment with anyone else other than your doctor.</small>
-          <label for="inputAppointmentID">Please input the appointment ID you would like to send the doctor to</label>
-          <input type="" class="form-control" id="inputAppointmentID" placeholder="Enter Appointment ID">
-        </div>
-        <button type="submit" class="btn btn-primary">Send</button>
-    </form>
-	
-	</div>
-	
-	<!-- End comment user -->
 	
 	<!-- Begin comment admin -->
-	   <div id="comment-admin" style="display: none;">
+	   <div id="comment-admin">
 	   		<h2>Comments</h2>
 	   <table class="table text-center" >
         <thead>
@@ -231,38 +173,10 @@
             <th scope="col">Name</th>
             <th scope="col">User Type</th>
             <th scope="col">Appointment ID</th>
-            <th scope="col">Manage</th>
+            <th scope="col" id="manage">Manage</th>
           </tr>
         </thead>
         <tbody id="commentTable">
-          <tr>
-            <th scope="row">1</th>
-            <td>11/30/2022 9:20:12</td>
-            <td>You have covid.</td>
-            <td>Jacob Thornton</td>
-            <td>Doctor</td>
-            <td>1</td>
-            <td><button type="button" class="btn btn-danger" onclick="deleteComments(this)">Remove</button></td>
-          </tr>
-          <tr>
-            <th scope="row">2</th>
-            <td>11/30/2022 9:20:12</td>
-            <td>I don't have covid.</td>
-            <td>John Doe</td>
-            <td>Patient</td>
-            <td>1</td>
-            <td><button type="button" class="btn btn-danger" onclick="deleteComments(this)">Remove</button></td>
-          </tr>
-          <tr>
-            <th scope="row">3</th>
-            <td>11/30/2022 9:20:12</td>
-            <td>You have covid.</td>
-            <td>Jacob Thornton</td>
-            <td>Doctor</td>
-            <td>1</td>
-            <td><button type="button" class="btn btn-danger" onclick="deleteComments(this)">Remove</button></td>
-          </tr>
-          
         </tbody>
     </table>
     <form class="mx-5">
@@ -273,8 +187,9 @@
           <label for="inputAppointmentID">Please input the appointment ID you would like to send the doctor to</label>
           <input type="" class="form-control" id="inputAppointmentID" placeholder="Enter Appointment ID">
         </div>
-        <button type="submit" class="btn btn-primary">Send</button>
+        
     </form>
+    <button type="submit" class="btn btn-primary" onclick="addComment()">Send</button>
 	   </div>
 		<!-- End comment admin -->
 
