@@ -30,6 +30,6 @@ function userInfo(){
 
     setTimeout(function () {
         window.location.href = ADMIN_PAGE; //will redirect to your blog page (an ex: blog.html)
-     }, 2000);
+     }, 1000);
     
 }
