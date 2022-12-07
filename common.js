@@ -91,6 +91,11 @@ function getUsername(){
 	return retrieveUserInfo()["username"];
 }
 
+function getPassword(){
+	//returns user's username as a string, i.e. "aonk"
+	return retrieveUserInfo()["passphrase"];
+}
+
 function checkAndRedirectAdmin(){
 	//check if user has admin privileges, then redirect to admin page if so
 	if(getUserType() !== "a"){
