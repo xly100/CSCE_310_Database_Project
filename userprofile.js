@@ -1,7 +1,12 @@
+//This JS file covers functions for both userprofile.html and userprofileedit.html
+
+//Function for calling all functions that are needed to display information once the page loads
 window.onload = function loadStuff(){
 	displayUserInfo();
 	displayExtras();
 }
+
+//Functions used in both pages
 
 function displayUserInfo(){ //Needs to obtain data from user table to display on u_profile and u_profile_edit
 	let UID = getUserId(); //Change lines like this to obtain Database values
@@ -65,6 +70,8 @@ function displayUserInfo(){ //Needs to obtain data from user table to display on
 	}
 }
 
+//Functions used only in userprofileedit.html
+
 function saveProfileDetails(){ //Sends new profile details to database, then goes from userprofileedit to userprofile. Called by "save button"
 	let FName = document.getElementById("FName Box").value;
 	let LName = document.getElementById("LName Box").value;
@@ -84,6 +91,8 @@ function saveProfileDetails(){ //Sends new profile details to database, then goe
 
 	window.location.replace("userprofile.html"); //Redirect to user profile page
 }
+
+//Functions only used in userprofile.html
 
 function displayExtras(){ //Displays extra info depending on usertype
 	//Obtain usertype value here, set to var usertype

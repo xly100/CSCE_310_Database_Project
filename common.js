@@ -9,16 +9,6 @@ PAGE_VAR_NAMES = {"LOGIN_PAGE" : LOGIN_PAGE, "PORTAL_PAGE" : PORTAL_PAGE, "PROFI
 
 // PHP SCRIPT REFERENCES
 
-
-function retrieveUserInfo() {
-	//returns null if no local storage object is found
-	//otherwise returns JSON dictionary of user's information
-  if(!localStorage.csce310userinfo){
-	  return null;
-  }
-  return JSON.parse(localStorage.getItem("csce310userinfo"));
-}
-
 function signOut(){
 	//delete login cookie
 	localStorage.removeItem("csce310userinfo");
@@ -60,6 +50,28 @@ if(validateLogin()){
 
 
 });
+
+function checkAndRedirectAdmin(){
+	//check if user has admin privileges, then redirect to admin page if so
+	if(getUserType() !== "a"){
+		alert("Error: You are not an admin!");
+		return;
+	} else{
+		window.location.href = ADMIN_PAGE;
+	}
+	
+}
+
+//Functions below are retrieving information from tables
+
+function retrieveUserInfo() {
+	//returns null if no local storage object is found
+	//otherwise returns JSON dictionary of user's information
+  if(!localStorage.csce310userinfo){
+	  return null;
+  }
+  return JSON.parse(localStorage.getItem("csce310userinfo"));
+}
 
 function getUserType(){
 	//returns "a", "d", or "p"
@@ -116,13 +128,3 @@ function getSex(){
 	//returns user's sex as a string, i.e. "M"
 }
 
-function checkAndRedirectAdmin(){
-	//check if user has admin privileges, then redirect to admin page if so
-	if(getUserType() !== "a"){
-		alert("Error: You are not an admin!");
-		return;
-	} else{
-		window.location.href = ADMIN_PAGE;
-	}
-	
-}
