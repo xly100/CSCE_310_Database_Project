@@ -50,7 +50,8 @@ function deleteUsers(btn){
 function editUserProfile(btn){
     var row = btn.parentNode.parentNode;
     editId = row.id; // this is the id to edit
-    
+    window.location.href = ADMIN_PROFILE_EDIT+'#'+editId;
+
     console.log(editId);
     //go to page for editing user profile
     

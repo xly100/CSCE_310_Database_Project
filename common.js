@@ -4,7 +4,8 @@ PORTAL_PAGE = "portal.html";
 PROFILE_PAGE = "userprofile.html";
 ADMIN_PAGE = "usermanage.html";
 USER_ADD = "adduser.html";
-PROFILE_EDIT = "userprofileedit.html";
+PROFILE_EDIT = "userprofile.html";
+ADMIN_PROFILE_EDIT = 'adminprofileedit.html';
 PAGE_VAR_NAMES = {"LOGIN_PAGE" : LOGIN_PAGE, "PORTAL_PAGE" : PORTAL_PAGE, "PROFILE_PAGE" : PROFILE_PAGE, "ADMIN_PAGE" : ADMIN_PAGE, "USER_ADD" : USER_ADD, "PROFILE_EDIT" : PROFILE_EDIT}
 
 // PHP SCRIPT REFERENCES
@@ -89,11 +90,6 @@ function getUserPhone(){
 function getUsername(){
 	//returns user's username as a string, i.e. "xly100"
 	return retrieveUserInfo()["username"];
-}
-
-function getPassword(){
-	//returns user's username as a string, i.e. "aonk"
-	return retrieveUserInfo()["passphrase"];
 }
 
 function checkAndRedirectAdmin(){
