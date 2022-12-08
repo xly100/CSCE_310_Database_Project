@@ -1,8 +1,5 @@
 //Function for calling all functions that are needed to display information once the page loads
 window.addEventListener('DOMContentLoaded', (event) => {
-    let Usertype = determine_type();
+    let UID = window.location.href.substring(window.location.href.lastIndexOf('#') + 1);
+    alert(UID);
 });
-
-determine_type(editID){
-    runPHP("selectfrompatient.php", {"userid":UID}, retrievePatientInfo, alert); //Need a generic SELECT Query
-}
