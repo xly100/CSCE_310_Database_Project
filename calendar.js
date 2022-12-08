@@ -6,6 +6,8 @@ REF_DATE.setDate(REF_DATE.getDate() - REF_DATE.getDay()); //ensure week begins o
 TABLE_CELLS = []
 SELECTED_DOCTOR = -1;
 CURRENT_APPT_DATE = new Date();
+SELECTED_CELL = null;
+SELECTED_CELL_ORIG_COLOR = "";
 
 /* coookie variables passed during session */
 USERID = "";
@@ -60,7 +62,7 @@ document.querySelectorAll('#cal_table td')
 	}
 	
 	if (e.style.backgroundColor == "gray"){ // unavailable
-		alert("Sorry. This spot is already reserved..")
+		alert("Sorry. This spot is already reserved..");
 	} else if (e.style.backgroundColor == "white"){ // available
 		// doctor can only create appt for themself
 		if (USERTYPE === "doctor" && SELECTED_DOCTOR != USERID){
@@ -69,11 +71,17 @@ document.querySelectorAll('#cal_table td')
 		}
 		// add appointment
 		else{
-
+			if(SELECTED_CELL !== null){
+				SELECTED_CELL.style.backgroundColor = SELECTED_CELL_ORIG_COLOR;
+			}
+			SELECTED_CELL = e;
+			SELECTED_CELL_ORIG_COLOR = e.style.backgroundColor;
+			SELECTED_CELL.style.backgroundColor = "lightgreen";
 			tempDate = new Date(REF_DATE.getTime());
 			tempDate.setDate(tempDate.getDate() + e.cellIndex - 1);
 			tempDate.setHours(e.closest('tr').rowIndex + 7,0,0,0);
 
+			document.getElementById('view-appt').style.display = "none";
 			document.getElementById('create-appts').style.display = "block";
 			if(USERTYPE !== "patient"){
 				document.getElementById('patient-dropdown').style.display = "block";
@@ -99,14 +107,73 @@ document.querySelectorAll('#cal_table td')
 		}
 	} else if (e.style.backgroundColor == "orange"){ // your appointment
 		// TODO: open appointment info
-		alert("View your appointment");
+		if(SELECTED_CELL !== null){
+				SELECTED_CELL.style.backgroundColor = SELECTED_CELL_ORIG_COLOR;
+			}
+			SELECTED_CELL = e;
+			SELECTED_CELL_ORIG_COLOR = e.style.backgroundColor;
+			SELECTED_CELL.style.backgroundColor = "lightgreen";
+		apptDate = new Date(REF_DATE.getTime());
+		apptDate.setDate(apptDate.getDate() + e.cellIndex - 1);
+		apptDate.setHours(e.closest('tr').rowIndex + 7,0,0,0);
+		
+		document.getElementById('create-appts').style.display = "none";
+		document.getElementById('view-appt').style.display = "block";
+		
+		if(getUserType() == "d"){
+			document.getElementById("edit-treatment").style.display = "block";
+		}
+		
+		
+		
+		runPHP("getappointmentbytime.php", {"timestamp": formatDate(apptDate), "doctorid": SELECTED_DOCTOR}, function(a){
+				parsed_dict = JSON.parse(result)[0];
+				apptid = parsed_dict["appointmentid"];
+				creatorid = parsed_dict["creatorid"];
+				patientid = parsed_dict["patientid"];
+				timestamp = parsed_dict["timestamp"];
+				doctorid = parsed_dict["doctorid"];
+				description = parsed_dict["description"];
+				treatmentnote = parsed_dict["treatment_note"];
+				document.getElementById("appt-id").innerHTML = "Appointment ID: " + apptid;
+				document.getElementById("appt-time").innerHTML = "Date and time: " + timestamp;
+				document.getElementById("appt-desc").innerHTML = "Request description: " + description;
+				document.getElementById("appt-treatment").innerHTML = "Treatment note: " + treatmentnote;
+				
+				
+				runPHP("getuser.php", {"userid":creatorid}, function(res){
+					
+					arr2 = JSON.parse(res)[0];
+					
+					document.getElementById("appt-creator").innerHTML = "Creator: " + arr2["firstname"] + " " + arr2["lastname"];
+					
+					runPHP("getuser.php", {"userid":patientid}, function(res){
+					
+						arr3 = JSON.parse(res)[0];
+					
+						document.getElementById("appt-patient").innerHTML = "Patient: " + arr3["firstname"] + " " + arr3["lastname"];
+					
+				
+						runPHP("getuser.php", {"userid":doctorid}, function(res){
+						
+						arr4 = JSON.parse(res)[0];
+						
+						document.getElementById("appt-doctor").innerHTML = "Patient: " + arr4["firstname"] + " " + arr4["lastname"];
+						
+
+						}, alert);
+
+					}, alert);
+					
+				}, alert);
+				
+		}, alert);
 	}
-}));
 
 
 
-  });
-
+  }));
+});
 
 
 // patient sees orange for his appointments and gray or white depending on the availability of selected doctor
@@ -168,6 +235,7 @@ function populateDoctors(){
 	
 	req.onload = function() {
 		if (req.status == 200) {
+			
 		  const data = JSON.parse(req.responseText);
 		  let option;
 		  for (let i = 0; i < data.length; i++) {
@@ -183,7 +251,7 @@ function populateDoctors(){
 		  }
 		 } else {
 		  // Empty
-	
+			
 		}   
 	  }
 
@@ -222,7 +290,7 @@ function retrieveAppointments(date, dayOfWeek){
 
 		// get specified cell
 		hour = rawTime.substr(rawTime.indexOf(" ") + 1,2);
-		cell = document.getElementById(dayOfWeek+"_"+hour)
+		cell = document.getElementById(dayOfWeek+"_"+parseInt(hour, 10));
 
 		// if userid = doctorid or patient id, then set color to orange (your appt) and show description
 		if (USERID == doctorid || USERID == patientid || USERTYPE == "admin"){
@@ -285,7 +353,9 @@ function createNewAppointment(){
 	timestamp = formatDate(CURRENT_APPT_DATE);
 	description = document.getElementById('inputDescription').value;
 	doctorid = SELECTED_DOCTOR + "";
-	patientid = document.getElementById('patient-dropdown').options[document.getElementById('patient-dropdown').selectedIndex].innerHTML;
+	
+	if(getUserType() !== "p"){
+		patientid = document.getElementById('patient-dropdown').options[document.getElementById('patient-dropdown').selectedIndex].innerHTML;
 	patientuser = patientid.substring(patientid.indexOf('(')+1, patientid.length - 1);
 
 	runPHP("getpatientbyusername.php", {"username":patientuser}, function(result){
@@ -293,9 +363,33 @@ function createNewAppointment(){
 		parsed_array = JSON.parse(result);
 		patient_userid = parsed_array[0]["userid"];
 				
-		runPHP("addappointment.php", {"creatorid": creatorid, "timestamp": timestamp, "description": description, "doctorid": doctorid, "patientid": patient_userid}, function(a){alert("Appointment created!"); loadWeek();}, alert);
-				
+		runPHP("addappointment.php", {"creatorid": creatorid, "timestamp": timestamp, "description": description, "doctorid": doctorid, "patientid": patient_userid}, function(a){
+			alert("Appointment created!");
+			loadWeek();
+			document.getElementById('create-appts').style.display = "none";}, alert);
 				
 	}, alert);
+	} else{
+		runPHP("addappointment.php", {"creatorid": creatorid, "timestamp": timestamp, "description": description, "doctorid": doctorid, "patientid": getUserId()}, function(a){
+			alert("Appointment created!");
+			loadWeek();
+			document.getElementById('create-appts').style.display = "none";}, alert);
+		
+		
+	}
 	
 }
+
+
+function doctorEditTreatmentNote(){
+	let new_note = prompt("Please enter treatment:", "");
+	apptid = document.getElementById('appt-id').innerHTML;
+	apptid = apptid.substring(apptid.indexOf(":") + 2);
+  if (new_note == null || new_note == "") {
+    //do nothing
+  } else {
+	 runPHP("updatetreatment.php", {"appointmentid":apptid,"treatment":new_note}, console.log, alert);
+	 	document.getElementById("appt-treatment").innerHTML = "Treatment note: " + new_note;
+  }
+}
+
