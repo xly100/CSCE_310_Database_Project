@@ -84,8 +84,15 @@
 	
 
 <!-- begin calendar body-->
+<!-- dropdown doctor menu-->
+<p>Select a doctor to view the appointment schedule.</p>
+<select id="doctor-dropdown">
+</select>
 
-<p>Click on a cell in the calendar to add an appointment at a particular date and time</p>
+
+<!-- alendar body-->
+
+<p>Click on a cell in the calendar to add an event at a particular date and time</p>
 
 <br>
 
@@ -116,14 +123,14 @@
 </table>
 </div>
 
-<table id="cal_legend" id="cal-legend">
+<table id="cal-legend">
   <tr>
     <td class="legend-color" >Available</td>
     <td bgcolor="white"></td>
   </tr>
   <tr>
     <td>Unavailable</td>
-    <td bgcolor="gray" style="width: 4em;"></td>
+    <td bgcolor="gray"></td>
   </tr>
   <tr>
     <td>Your Appointment</td>
