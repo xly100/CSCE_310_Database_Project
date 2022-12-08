@@ -48,9 +48,6 @@
 }
 </style>
 	</head>
-	
-	
-	
 	<body>
 
 	<nav class="navbar navbar-expand-sm bg-primary navbar-dark fixed-top">
@@ -80,17 +77,15 @@
 </div>
     </nav>
 	
-	
-	
-
 <!-- begin calendar body-->
+
 <!-- dropdown doctor menu-->
 <p>Select a doctor to view the appointment schedule.</p>
 <select id="doctor-dropdown">
 </select>
 
 
-<!-- alendar body-->
+<!-- calendar body-->
 
 <p>Click on a cell in the calendar to add an event at a particular date and time</p>
 
@@ -142,35 +137,30 @@
 <!-- end calendar body-->
 
 	<!-- Begin create appt -->
-	<div id="create-appts">
-	<h2>Create new appointment</h2>
+	<div id="create-appts" style="display: none;">
+	<h2 id="cna-title">Create new appointment for</h2>
+	<p>Select patient</p>
+	<select id="patient-dropdown" style="display: none;">
+</select>
+	<br>
     <form id="create-appt-form">
       <div class="form-group">
         <label for="inputDescription">Describe your request</label>
-        <input type="" class="form-control" id="inputDescription" aria-describedby="commentHelp" placeholder="Enter Description">
-        <br>
-        <label for="inputAppointmentID">Select your doctor</label>
+        <input type="" class="form-control" id="inputDescription" aria-describedby="commentHelp" placeholder="Enter appointment reason">
       </div>
-      <div class="dropdown">
-        <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Select doctor</button>
-        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-          <a class="dropdown-item" href="#">Action</a>
-          <a class="dropdown-item" href="#">Another action</a>
-          <a class="dropdown-item" href="#">Something else here</a>
-        </div>
-      </div>
+   
  
     </form>
 	     <br>
-	    <button type="submit" class="btn btn-primary">Create</button>
+	    <button type="submit" class="btn btn-primary" onclick="createNewAppointment();">Create</button>
 		
 	</div>
 	<br><br>
 	<!-- Endcreate appt -->
-	
+	<hr>
 	<!-- Begin comment admin -->
 	   <div id="comment-admin">
-	   		<h2>Comments</h2>
+	   		<h2 >Comments (all)</h2>
 	   <table class="table text-center" >
         <thead>
           <tr>

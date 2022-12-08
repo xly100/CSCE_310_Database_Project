@@ -5,6 +5,7 @@ REF_DATE = new Date(); //the reference date for the current week on the calendar
 REF_DATE.setDate(REF_DATE.getDate() - REF_DATE.getDay()); //ensure week begins on Sunday
 TABLE_CELLS = []
 SELECTED_DOCTOR = -1;
+CURRENT_APPT_DATE = new Date();
 
 /* coookie variables passed during session */
 USERID = "";
@@ -14,9 +15,9 @@ DCL_RUN = false;
 
 /* update global variable for change on doctor menu */
 window.addEventListener("DOMContentLoaded", function() {
+
 	if(DCL_RUN){return;}
 	DCL_RUN = true;
-	
 	document.getElementById("doctor-dropdown").addEventListener("change", function() { 
 	  SELECTED_DOCTOR = document.getElementById("doctor-dropdown").value;
 	  loadWeek();
@@ -52,17 +53,49 @@ USERTYPE = getUserType() === "p" ? "patient" : (getUserType() === "d" ? "doctor"
 /* click listeners for each cell */
 document.querySelectorAll('#cal_table td')
 .forEach(e => e.addEventListener("click", function() {
+	
+	if(SELECTED_DOCTOR == -1){
+		alert("Select a doctor!");
+		return;
+	}
+	
 	if (e.style.backgroundColor == "gray"){ // unavailable
 		alert("Sorry. This spot is already reserved..")
 	} else if (e.style.backgroundColor == "white"){ // available
 		// doctor can only create appt for themself
-		if (USERTYPE == "doctor" && SELECTED_DOCTOR != USERID){
+		if (USERTYPE === "doctor" && SELECTED_DOCTOR != USERID){
 				alert("Sorry. You can't create an appointment for another doctor.");
+				return;
 		}
 		// add appointment
 		else{
-			alert("Create an appointment");
-			// TODO: add function fod adding appointment
+
+			tempDate = new Date(REF_DATE.getTime());
+			tempDate.setDate(tempDate.getDate() + e.cellIndex - 1);
+			tempDate.setHours(e.closest('tr').rowIndex + 7,0,0,0);
+
+			document.getElementById('create-appts').style.display = "block";
+			if(USERTYPE !== "patient"){
+				document.getElementById('patient-dropdown').style.display = "block";
+				
+				runPHP("getallpatients.php", {}, function(result){
+					
+					parsed_array = JSON.parse(result);
+					
+				for (let i = 0; i < parsed_array.length; i++){
+					opt = document.createElement('option');
+					opt.value = parsed_array[i]["username"]
+					opt.innerHTML = parsed_array[i]["firstname"] + " " + parsed_array[i]["lastname"] + " (" + parsed_array[i]["username"] + ")";
+					document.getElementById('patient-dropdown').appendChild(opt);
+				}
+					
+				}, alert);
+				
+			}
+			
+			CURRENT_APPT_DATE = new Date(tempDate.getTime());
+			
+			document.getElementById('cna-title').innerHTML = "Create new appointment for " + tempDate;
 		}
 	} else if (e.style.backgroundColor == "orange"){ // your appointment
 		// TODO: open appointment info
@@ -150,6 +183,7 @@ function populateDoctors(){
 		  }
 		 } else {
 		  // Empty
+	
 		}   
 	  }
 
@@ -208,14 +242,6 @@ function retrieveAppointments(date, dayOfWeek){
 }
 
 
-
-
-
-
-
-
-
-
 /* Get time of day from cell id */
 function getTimeFromId(id_){
 
@@ -234,4 +260,42 @@ function getDateFromId(id_){
 
 	return dateStringYYYYMMDD(weekstart, "-");
 
+}
+
+function formatDate(date) {
+  return (
+    [
+      date.getFullYear(),
+      (date.getMonth() + 1).toString().padStart(2, '0'),
+      (date.getDate()).toString().padStart(2, '0'),
+    ].join('-') +
+    ' ' +
+    [
+      (date.getHours()).toString().padStart(2, '0'),
+      (date.getMinutes()).toString().padStart(2, '0'),
+      (date.getSeconds()).toString().padStart(2, '0'),
+    ].join(':')
+  );
+
+}
+
+function createNewAppointment(){
+	
+	creatorid = getUserId();
+	timestamp = formatDate(CURRENT_APPT_DATE);
+	description = document.getElementById('inputDescription').value;
+	doctorid = SELECTED_DOCTOR + "";
+	patientid = document.getElementById('patient-dropdown').options[document.getElementById('patient-dropdown').selectedIndex].innerHTML;
+	patientuser = patientid.substring(patientid.indexOf('(')+1, patientid.length - 1);
+
+	runPHP("getpatientbyusername.php", {"username":patientuser}, function(result){
+					
+		parsed_array = JSON.parse(result);
+		patient_userid = parsed_array[0]["userid"];
+				
+		runPHP("addappointment.php", {"creatorid": creatorid, "timestamp": timestamp, "description": description, "doctorid": doctorid, "patientid": patient_userid}, function(a){alert("Appointment created!"); loadWeek();}, alert);
+				
+				
+	}, alert);
+	
 }
