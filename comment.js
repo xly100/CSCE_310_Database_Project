@@ -1,4 +1,5 @@
 window.addEventListener('DOMContentLoaded', (event) => {
+    setTimeout(function () {}, 1000);
     if(getUserType() !== 'a'){
         runPHP("getusercomments.php",{"userid":getUserId()},populateComments, alert);
     }
@@ -32,6 +33,7 @@ function populateComments(comments){
 
         var row = document.createElement('tr');
 
+        row.setAttribute("id", id)
         row.innerHTML = "<th scope='row'>" + id + "<\/th><td>" + time + "<\/td><td>" + comment + "<\/td><td>" 
         + name + "<\/td><td>" + type + "<\/td><td>" + appointment + "<\/td>" + (getUserType() == 'a' ? "<td><button type='button' class='btn btn-danger' onclick='deleteComments(this)'>Remove</button></td>" : "");
 

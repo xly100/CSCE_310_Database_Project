@@ -14,7 +14,16 @@ function populateUsers(users){
         var name = firstName+' '+lastName;
         var userName = temp['username'];
         var phone = temp['phone'];
-        var role = temp['usertype'];
+        var role = "";
+        if(temp['usertype']==='p'){
+            role = "Patient"
+        }
+        else if(temp['usertype']==='d'){
+            role = "Doctor"
+        }
+        else if(temp['usertype']==='a'){
+            role = "Admin"
+        }
         
         var row = document.createElement('tr');
         row.setAttribute("id", id)
@@ -41,6 +50,7 @@ function deleteUsers(btn){
 function editUserProfile(btn){
     var row = btn.parentNode.parentNode;
     editId = row.id; // this is the id to edit
+    
     console.log(editId);
     //go to page for editing user profile
     
