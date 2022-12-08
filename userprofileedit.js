@@ -148,8 +148,10 @@ function patientUpdateDone(parameter){//If patient, update extra fields
     let Street = document.getElementById("Street_Box").value;
     let City = document.getElementById("City_Box").value;
     let State = document.getElementById("State_Box").value;
+    let Age = document.getElementById("Age_Box").value;
+    let Sex = document.getElementById("Sex_Box").value;
 
-    runPHP("updatepatientprofile.php", {"UID":UID, "Street":Street, "City":City, "State":State}, otherUpdateDone, alert);
+    runPHP("updatepatientprofile.php", {"UID":UID, "Street":Street, "City":City, "State":State, "Age":Age, "Sex":Sex}, otherUpdateDone, alert);
     
 }
 
