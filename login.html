@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="login.css">
+	  <script src="login.js"></script> 
+	  <script src="common.js"></script> 
+	<style>
+	body{
+	background: #007bff;
+	}
+	.form button{
+		background: #007bff;
+	}
+	</style>
+</head>
+<body>
+  <div class="login-page">
+      <div class="form">
+        <form id="register-form" class="register-form">
+          <p class="message">Please Register if you do not have an Account</p>
+          <input type="text" id="username_reg_field" placeholder="username"/>
+          <input type="text" id="password_reg_field" placeholder="password"/>
+		  <input type="text" id="firstname_reg_field" placeholder="first name"/>
+          <input type="text" id="lastname_reg_field" placeholder="last name"/>
+          <input type="text" id="phone" placeholder="phone number"/>
+        </form>
+		
+		<button onclick="registerUser()">create</button>
+		
+        <form id="login-form" class="login-form">
+          <p class="message">Please Login if you have an Account</p>
+          <input type="text" id="login_username" placeholder="username"/>
+          <input type="password" id="login_password" placeholder="password"/>
+     
+          <input type="checkbox" onclick="showPassChars()">Show Password</input>
+          
+        </form>
+             <button onclick="attemptLogin();">login</button>
+      </div>
+      
+  </div>
+
+</body>
+</html>
