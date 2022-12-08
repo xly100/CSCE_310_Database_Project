@@ -1,24 +1,84 @@
-/**
-
-Calendar
-
-Author: David Poe adapted by Matthew Chang
-Date: 12/3/2022
-
-*/
+// MATTHEW CHANG 828004952
 
 /* GLOBAL VARS */
 REF_DATE = new Date(); //the reference date for the current week on the calendar (day of week is always Sunday)
 REF_DATE.setDate(REF_DATE.getDate() - REF_DATE.getDay()); //ensure week begins on Sunday
-
 TABLE_CELLS = []
+SELECTED_DOCTOR = -1;
 
-/** Obviously you would not have this in your real js file. Use a real auth scheme. This is just for purposes of simplicity **/
-USER = "3";
-USERTYPE = "admin"; // patient, doctor, or admin
+/* coookie variables passed during session */
+USERID = "";
+USERTYPE = ""; // patient, doctor, or admin
+DCL_RUN = false;
+
+
+/* update global variable for change on doctor menu */
+window.addEventListener("DOMContentLoaded", function() {
+	if(DCL_RUN){return;}
+	DCL_RUN = true;
+	
+	document.getElementById("doctor-dropdown").addEventListener("change", function() { 
+	  SELECTED_DOCTOR = document.getElementById("doctor-dropdown").value;
+	  loadWeek();
+	});
+	
+	/* * Generates calendar cells * */
+var table = document.getElementById("cal_table");
+	
+for (i = 17; i >= 8; i--) {
+	var row = table.insertRow(1);
+	row.insertCell(0).innerHTML = i + ":00";
+	
+	for (j = 1; j < 8; j++){
+	
+		c_obj = row.insertCell(j)
+	
+		c_obj.innerHTML = "";
+		c_obj.id = (j - 1) + "_" + i 
+			TABLE_CELLS.push(c_obj);
+		}
+}
+
+		
+	populateDoctors();
+loadWeek();
+
+USERID = getUserId();
+USERTYPE = getUserType() === "p" ? "patient" : (getUserType() === "d" ? "doctor" : "admin");
+
+
+
+
+/* click listeners for each cell */
+document.querySelectorAll('#cal_table td')
+.forEach(e => e.addEventListener("click", function() {
+	if (e.style.backgroundColor == "gray"){ // unavailable
+		alert("Sorry. This spot is already reserved..")
+	} else if (e.style.backgroundColor == "white"){ // available
+		// doctor can only create appt for themself
+		if (USERTYPE == "doctor" && SELECTED_DOCTOR != USERID){
+				alert("Sorry. You can't create an appointment for another doctor.");
+		}
+		// add appointment
+		else{
+			alert("Create an appointment");
+			// TODO: add function fod adding appointment
+		}
+	} else if (e.style.backgroundColor == "orange"){ // your appointment
+		// TODO: open appointment info
+		alert("View your appointment");
+	}
+}));
+
+
+
+  });
+
+
+
 // patient sees orange for his appointments and gray or white depending on the availability of selected doctor
 // doctor sees orange for his appointments and white otherwise
-// admin sees all appointments
+// admin sees all appointments as orange
 
 
 /* Date string utility methods */
@@ -37,7 +97,6 @@ function dateStringYYYYMMDD(dateObject, separator){
 
 /* Refreshes the calendar view */
 function loadWeek(){
-
 	// reset cells
 	TABLE_CELLS.forEach(element => element.innerHTML = "");
 	TABLE_CELLS.forEach(element => element.style.backgroundColor = "white");
@@ -59,15 +118,53 @@ function loadWeek(){
 	}
 }
 
-loadWeek();
+/* generate dropdown of doctors */
+function populateDoctors(){
+	let dropdown = document.getElementById('doctor-dropdown');
+	dropdown.length = 0;
+	
+	let defaultOption = document.createElement('option');
+	defaultOption.text = 'Choose a Doctor';
+	defaultOption.value = -1;
+	
+	dropdown.add(defaultOption);
+	dropdown.selectedIndex = 0;
 
-// back button functionality
+	var req = new XMLHttpRequest();
+    req.open("GET", "https://csce310database.000webhostapp.com/calendar.php?userid=" + USERID + "&usertype=" + USERTYPE + "&date="+"null" + "&command=1" + "&doctorid=" + "null", true);
+	
+	req.onload = function() {
+		if (req.status == 200) {
+		  const data = JSON.parse(req.responseText);
+		  let option;
+		  for (let i = 0; i < data.length; i++) {
+			e = data[i];
+			id = e[0];
+			firstname = e[1];
+			lastname = e[2];
+			specialty = e[3];
+			option = document.createElement('option');
+			option.text = firstname + " " + lastname + " (" + specialty + ")";
+			option.value = id;
+			dropdown.add(option);
+		  }
+		 } else {
+		  // Empty
+		}   
+	  }
+
+    req.send();
+}
+
+
+
+// back button
 function goBackOneWeek(){
 	REF_DATE.setDate(REF_DATE.getDate() - 7);
 	loadWeek();
 }
 
-//forward button functionality
+//forward button
 function goForwardOneWeek(){
 	REF_DATE.setDate(REF_DATE.getDate() + 7);
 	loadWeek();
@@ -94,7 +191,7 @@ function retrieveAppointments(date, dayOfWeek){
 		cell = document.getElementById(dayOfWeek+"_"+hour)
 
 		// if userid = doctorid or patient id, then set color to orange (your appt) and show description
-		if (USER == doctorid || USER == patientid){
+		if (USERID == doctorid || USERID == patientid || USERTYPE == "admin"){
 			cell.innerHTML += description+"<br>";
 			cell.style.backgroundColor = "orange";
 		}
@@ -106,65 +203,16 @@ function retrieveAppointments(date, dayOfWeek){
 	  }
       }
     };
-    req.open("GET", "https://csce310database.000webhostapp.com/calendar.php?username=" + USER + "&usertype=" + USERTYPE + "&date="+date + "&command=0", true);
-    req.send();
-}
-
-
-/* Retireve all doctors */
-function retrieveDoctors(){
-	var req = new XMLHttpRequest();
-    req.onreadystatechange = function() {
-      if (this.readyState == 4 && this.status == 200) {
-	  jsonArr = JSON.parse(this.responseText);
-	  
-	  for(i = 0; i < jsonArr.length; i++){
-
-	  	e = jsonArr[i];
-		specialty = e[1];
-		alert(sepcialty);
-	  }
-      }
-    };
-    req.open("GET", "https://csce310database.000webhostapp.com/calendar.php?username=" + USER + "&usertype=" + USERTYPE + "&date="+"null" + "&command=1", true);
+    req.open("GET", "https://csce310database.000webhostapp.com/calendar.php?userid=" + USERID + "&usertype=" + USERTYPE + "&date="+date + "&command=0" + "&doctorid="+SELECTED_DOCTOR, true);
     req.send();
 }
 
 
 
-/* * Generates calendar cells * */
-var table = document.getElementById("cal_table");
-	
-for (i = 17; i >= 8; i--) {
-	var row = table.insertRow(1);
-	row.insertCell(0).innerHTML = i + ":00";
-	
-	for (j = 1; j < 8; j++){
-	
-		c_obj = row.insertCell(j)
-	
-		c_obj.innerHTML = "";
-		c_obj.id = (j - 1) + "_" + i 
-			TABLE_CELLS.push(c_obj);
-		}
-	
-}
 
 
 
 
-/* click listeners for each cell */
-document.querySelectorAll('#cal_table td')
-.forEach(e => e.addEventListener("click", function() {
-	if (e.style.backgroundColor == "gray"){ // unavailable
-		alert("Sorry. This spot is already reserved.")
-	} else if (e.style.backgroundColor == "white"){ // available
-		// TODO: show appointment entry form
-		// addEvent(getDateFromId(this.id), this.id.substr(0,1),desc,getTimeFromId(this.id));
-	} else if (e.style.backgroundColor == "orange"){ // your appointment
-		// TODO: open appointment info
-	}
-}));
 
 
 
@@ -176,6 +224,7 @@ return splitUp[1] + ":" + splitUp[2]+" " + splitUp[3];
 
 }
 
+
 /* Get date string from cell id */
 function getDateFromId(id_){
 	splitUp = id_.split("_");
@@ -186,23 +235,3 @@ function getDateFromId(id_){
 	return dateStringYYYYMMDD(weekstart, "-");
 
 }
-
-
-// /* Add a new event to the database */
-// function addEvent(desc, timestamp){
-
-
-// 	var req = new XMLHttpRequest();
-	
-//     req.open("POST", "https://csce310database.000webhostapp.com/calendar.php", true);
-// 	req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-// 	req.onreadystatechange = function() { 
-//     if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
-//        loadWeek();
-//     }
-// }
-//     req.send("https://csce310database.000webhostapp.com/calendar.php?req=true&username=" + USER +"&desc="+desc+"&timestamp="+timestamp);
-
-
-
-// }
