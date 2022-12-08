@@ -30,8 +30,17 @@ function registerUser(){
 	fname = document.getElementById("firstname_reg_field").value;
 	lname = document.getElementById("lastname_reg_field").value;
 	phone = document.getElementById("phone").value;
-	runPHP("register.php", {"firstname": fname, "lastname":lname, "username":user, "passphrase":pass, "usertype":"p", "phone": phone}, login, alert);
+	runPHP("register.php", {"firstname": fname, "lastname":lname, "username":user, "passphrase":pass, "usertype":"p", "phone": phone}, login, duplicateUsername);
 
+}
+
+function duplicateUsername(message){
+	if(message.includes("Duplicate entry")){
+		alert("The Username Already Exists! Please choose another one.");
+	}
+	else{
+		alert(message);
+	}
 }
 function login(parameter){
 	user = document.getElementById("username_reg_field").value;
