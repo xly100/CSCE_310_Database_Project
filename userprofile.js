@@ -10,6 +10,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
 		queryDoctor();
 	}
 
+	if(Usertype === "a"){
+		queryAdmin();
+	}
+
 	displayExtras();
 });
 
@@ -97,6 +101,38 @@ function retrieveDoctorInfo(doctorInfo){
     
     let RoomNum = parsed['roomnum']
     document.getElementById("RoomNum").innerHTML = RoomNum;
+}
+
+
+//Following set of functions queries user to pull all info for an admin
+function queryAdmin(){ //Function queries whole row from user table for target userid
+	let UID = getUserId(); 
+	runPHP("adminedituser.php", {"userid":UID}, retrieveAdminInfo, alert);
+}
+
+function retrieveAdminInfo(adminInfo){
+	parsed = JSON.parse(adminInfo)[0];
+
+	let UID = parsed["userid"];
+	document.getElementById("UID").innerHTML = UID;
+
+	let FName = parsed["firstname"];
+	document.getElementById("FName").innerHTML = FName;
+
+	let LName = parsed["lastname"];
+	document.getElementById("LName").innerHTML = LName;
+
+	let PhoneNum = parsed["phone"];
+	document.getElementById("PhoneNum").innerHTML = PhoneNum;
+
+	let Username = parsed["username"];
+	document.getElementById("Username").innerHTML = Username;
+
+	let Pwd = parsed["passphrase"];
+	document.getElementById("Pwd").innerHTML = Pwd;
+
+	let Usertype = "a";
+	document.getElementById("Usertype").innerHTML = Usertype;
 }
 
 
