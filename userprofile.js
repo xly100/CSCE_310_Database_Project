@@ -9,8 +9,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 	if(Usertype === "d"){
 		queryDoctor();
 	}
-	
-	displayUserInfo();
+
 	displayExtras();
 });
 
@@ -22,7 +21,29 @@ function queryPatient(){ //Function queries whole row from patient table for tar
 }
 
 function retrievePatientInfo(patientInfo){
+	//All of these statements call a function from common.js to obtain the current user table values and set them to variables that can be used by the html pages
 	parsed = JSON.parse(patientInfo)[0];
+	
+	let UID = parsed["userid"];
+	document.getElementById("UID").innerHTML = UID;
+
+	let FName = parsed["firstname"];
+	document.getElementById("FName").innerHTML = FName;
+
+	let LName = parsed["lastname"];
+	document.getElementById("LName").innerHTML = LName;
+
+	let PhoneNum = parsed["phone"];
+	document.getElementById("PhoneNum").innerHTML = PhoneNum;
+
+	let Username = parsed["username"];
+	document.getElementById("Username").innerHTML = Username;
+
+	let Pwd = parsed["passphrase"];
+	document.getElementById("Pwd").innerHTML = Pwd;
+
+	let Usertype = "p";
+	document.getElementById("Usertype").innerHTML = Usertype;
 
     let Street = parsed['street'];
     document.getElementById("Street").innerHTML = Street;
@@ -50,6 +71,27 @@ function queryDoctor(){ //Function queries whole row from doctor table for targe
 function retrieveDoctorInfo(doctorInfo){
 	parsed = JSON.parse(doctorInfo)[0];
 
+	let UID = parsed["userid"];
+	document.getElementById("UID").innerHTML = UID;
+
+	let FName = parsed["firstname"];
+	document.getElementById("FName").innerHTML = FName;
+
+	let LName = parsed["lastname"];
+	document.getElementById("LName").innerHTML = LName;
+
+	let PhoneNum = parsed["phone"];
+	document.getElementById("PhoneNum").innerHTML = PhoneNum;
+
+	let Username = parsed["username"];
+	document.getElementById("Username").innerHTML = Username;
+
+	let Pwd = parsed["passphrase"];
+	document.getElementById("Pwd").innerHTML = Pwd;
+
+	let Usertype = "d";
+	document.getElementById("Usertype").innerHTML = Usertype;
+
     let Specialty = parsed['specialty'];
     document.getElementById("Specialty").innerHTML = Specialty;
     
@@ -57,31 +99,6 @@ function retrieveDoctorInfo(doctorInfo){
     document.getElementById("RoomNum").innerHTML = RoomNum;
 }
 
-
-//Obtains data from user table to display on userprofile
-function displayUserInfo(){ 
-	//All of these statements call a function from common.js to obtain the current user table values and set them to variables that can be used by the html pages
-	let UID = getUserId();
-	document.getElementById("UID").innerHTML = UID;
-	
-	let FName = getUserFName();
-	document.getElementById("FName").innerHTML = FName;
-	
-	let LName = getUserLName();
-	document.getElementById("LName").innerHTML = LName;
-	
-	let PhoneNum = getUserPhone();
-	document.getElementById("PhoneNum").innerHTML = PhoneNum;
-	
-	let Username = getUsername();
-	document.getElementById("Username").innerHTML = Username;
-	
-	let Pwd = getPassword();
-	document.getElementById("Pwd").innerHTML = Pwd;
-	
-	let Usertype = getUserType();
-	document.getElementById("Usertype").innerHTML = Usertype;
-}
 
 function displayExtras(){ //Displays extra info depending on usertype
 	
